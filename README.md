@@ -1,4 +1,28 @@
+
 # FaceRecognition
+
+<p align="center">
+ 
+<a href="#backers" alt="">
+        <img src="https://img.shields.io/eclipse-marketplace/last-update/notepad4e.svg" /></a>
+        
+<a href="#backers" alt="">
+        <img src="https://img.shields.io/dub/l/vibe-d.svg" /></a>
+        
+<a href="#backers" alt="">
+        <img src="https://img.shields.io/badge/Version-v1-green.svg" /></a>
+        
+<a href="#backers" alt="">
+       <img src="https://img.shields.io/pypi/pyversions/Django.svg" /></a>
+ 
+<a href="#backers" alt="">
+       <img src="https://img.shields.io/powershellgallery/p/:packageName.svg" /></a>
+  
+<a href="#backers" alt="">
+       <img src="https://img.shields.io/github/repo-size/badges/shields.svg" /></a>
+
+</p>
+
 
 Simple project about face recognition. Based on college project [DS_2_2018](https://github.com/helpthx/DS_2_2018) . Aiming to use face recognition to control access at college's restaurant. The system was embedded in a Raspberry pi 3(SoC) and tested in different environments. There are a local database base on sqlite3, a server in Apache to editing the database while face recognition system are running and relay to send signal to open the door - control by Raspberry Pi GPIO.
 
