@@ -164,7 +164,7 @@ ru_list = []
 acessos_list = []
 data = []
 conn = sqlite3.connect('Banco_de_dados.db')
-print ('Banco aberto com sucesso...');
+print ('Database open successfully...');
 
 cursor = conn.execute("SELECT ID, NOME, MATRICULA, RU, ACESSOS from CADASTROS")
 for row in cursor:
@@ -180,7 +180,7 @@ conn.close()
 #Zerar todos os acessos    
 
 conn = sqlite3.connect('Banco_de_dados.db')
-print('\nBanco aberto com sucesso...');
+print('\nDatabase open successfully...');
 print('---------------------------')
         
 conn.execute('UPDATE CADASTROS set ACESSOS = 0');
@@ -213,8 +213,8 @@ cam.set(4, 480) # set video height
 minW = 0.1*cam.get(3)
 minH = 0.1*cam.get(4)
 
-#Inicia a interface grafica de acompanhamento
 
+#Inicia a interface grafica de acompanhamento
 sair = 1 
 app = QtGui.QApplication(sys.argv)
 Monitor = QtGui.QMainWindow()
@@ -290,7 +290,7 @@ while True:
             confidence = "  {0}%".format(round(100 - confidence))
             
             cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
-            id = 'Acesso permitido'
+            id = 'Welcome...'
             iniciar = 1
             sem_credito = 0
             numero_acessos = numb_acessos
@@ -303,7 +303,7 @@ while True:
             #condição em que o usuario terá acesso ao restaurante
             if (t == 13 and credito_1 >= 0.0 and numero_acessos == 0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
-                id = 'Acesso permitido'
+                id = 'Welcome...'
                 iniciar = 1
                 sem_credito = 0
                 numero_acessos = 0
@@ -314,7 +314,7 @@ while True:
                 #Temporalização para travar a tela de monitoramento e abrir o GPIO da placa
                 if(v == 15):
                     cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2) #Verde
-                    id = 'Acesso permitido'
+                    id = 'Welcome...'
                     iniciar = 1
                     sem_credito = 0
                     numero_acessos = 0
@@ -323,9 +323,9 @@ while True:
                     Monitor.show()
                     
                     #Printar no console as informações que serão gravas como logs
-                    print('Bem Vindo ', nome)
-                    print('Matricula: ', matricula)
-                    print('Creditos restantes: ', credito_1)
+                    print('Welcome ', nome)
+                    print('Number: ', matricula)
+                    print('Money remaining: ', credito_1)
                     print('\n')
                     
                     #Atualização do banco de dados
@@ -333,21 +333,21 @@ while True:
                     conn.execute("UPDATE CADASTROS set RU = " +str(round(credito_1, 2))+ " WHERE  MATRICULA = "+ str(matricula));
                     conn.execute('UPDATE CADASTROS set ACESSOS = ACESSOS+1 WHERE  MATRICULA='+str(matricula));
                     conn.commit()
-                    print('\nNumero total de colunas atualizadas: ', conn.total_changes)
+                    print('\nTotal columns number updates: ', conn.total_changes)
                     if conn.total_changes > 0:
-                            print('Alterado com sucesso...')
+                            print('Change successfully...')
                     else:
-                            print('Alguma operação deu errado...')
+                            print('Failed something wrong...')
 
                     print('\n')
                     conn.close()
                     
                     #Criando o arquivo de logs
                     now = datetime.now()
-                    arq = open('Logs/log_refeicoes.txt', 'a')
+                    arq = open('Logs/log.txt', 'a')
                     data = []
                     data.append('\n-------------------------\n')
-                    data.append("Data: ")
+                    data.append("Date: ")
                     data.append(str(now.year))
                     data.append(':')
                     data.append(str(now.month))
@@ -359,10 +359,10 @@ while True:
                     data.append(str(now.minute))
                     data.append(':')
                     data.append(str(now.second))
-                    data.append(str('\nBem vindo: '+nome))
-                    data.append(str('\nMatricula: '+matricula))
-                    data.append('\nCreditos restantes: '+str(credito_1))
-                    data.append('\nCreditos antes: '+str(credito))
+                    data.append(str('\nWelcome: '+nome))
+                    data.append(str('\nNumber: '+matricula))
+                    data.append('\nMoney remaining: '+str(credito_1))
+                    data.append('\nMoney before: '+str(credito))
                     data.append('\n------------------------\n')
                     arq.writelines(data)
                     arq.close()
@@ -379,7 +379,7 @@ while True:
             #Condição em que o usuario não terá creditos suficientes para acessar o restaurante.
             elif(t == 13 and credito_1 < 0.0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,0,255), 2) #Vermelho
-                id = 'Sem creditos...'
+                id = 'Out of money...'
                 iniciar = 1
                 sem_credito = 1
                 numero_acessos = 0
@@ -392,18 +392,18 @@ while True:
                 if(v == 15):
                     
                     #Printar no console as informações que serão gravas como logs
-                    print('Sem saldo ', nome)
-                    print('Matricula: ', matricula)
-                    print('Creditos restantes: ', credito_1)
-                    print('Creditos antes: ', credito)
+                    print('Out of money: ', nome)
+                    print('Number: ', matricula)
+                    print('Money remaining: ', credito_1)
+                    print('Money before: ', credito)
                     print('\n')
                     
                     #Criando o arquivo de logs
                     now = datetime.now()
-                    arq = open('Logs/log_refeicoes.txt', 'a')
+                    arq = open('Logs/log.txt', 'a')
                     data = []
                     data.append('\n-------------------------\n')
-                    data.append("Data: ")
+                    data.append("Date: ")
                     data.append(str(now.year))
                     data.append(':')
                     data.append(str(now.month))
@@ -415,10 +415,10 @@ while True:
                     data.append(str(now.minute))
                     data.append(':')
                     data.append(str(now.second))
-                    data.append(str('\nBem vindo: '+nome))
-                    data.append(str('\nMatricula: '+matricula))
-                    data.append('\nCreditos restantes: '+str(credito_1))
-                    data.append('\nCreditos antes: '+str(credito))
+                    data.append(str('\nOut of money: '+nome))
+                    data.append(str('\nNumber: '+matricula))
+                    data.append('\nMoney remaining: '+str(credito_1))
+                    data.append('\nMoney before: '+str(credito))
                     data.append('\n------------------------\n')
                     arq.writelines(data)
                     arq.close()
@@ -432,7 +432,7 @@ while True:
             #Condição em que o usuario tentou acessar mais vezes que o permitido no restaurante.
             elif(t == 13 and numero_acessos != 0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,165,255), 2) #laranjado
-                id = 'Numeros de acessos expirados..'
+                id = 'Access number out...'
                 iniciar = 1
                 sem_credito = 0
                 numero_acessos = 1
@@ -446,16 +446,16 @@ while True:
                 if(v == 15):
                     
                     #Printar no console as informações que serão gravas como logs
-                    print('Numeros de acessos expirados... ', nome)
-                    print('Matricula: ', matricula)
+                    print('Access number out...', nome)
+                    print('Number: ', matricula)
                     print('\n')
                     
                     #Criando o arquivo de logs
                     now = datetime.now()
-                    arq = open('Logs/log_refeicoes.txt', 'a')
+                    arq = open('Logs/log.txt', 'a')
                     data = []
                     data.append('\n-------------------------\n')
-                    data.append("Data: ")
+                    data.append("Date: ")
                     data.append(str(now.year))
                     data.append(':')
                     data.append(str(now.month))
@@ -467,11 +467,11 @@ while True:
                     data.append(str(now.minute))
                     data.append(':')
                     data.append(str(now.second))
-                    data.append('\nNumeros de acessos expirados..')
-                    data.append(str('\nNome '+nome))
-                    data.append(str('\nMatricula: '+matricula))
+                    data.append('\nAccess number out...')
+                    data.append(str('\nName '+nome))
+                    data.append(str('\nNumber: '+matricula))
                     #data.append('\nCreditos restantes: '+str(credito_1))
-                    data.append('\nCreditos: '+str(credito))
+                    data.append('\nMoney: '+str(credito))
                     data.append('\n------------------------\n')
                     arq.writelines(data)
                     arq.close()
@@ -485,9 +485,9 @@ while True:
             #Condição de incremento de identificação        
             else:
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,255), 2) #Amarelo
-                id = 'Identificando rosto...'
+                id = 'Identifying face...'
                 iniciar = 0
-                nome = "Identificando..."
+                nome = "Identifying..."
                 matricula = "........"
                 dinheiro = ".."
                 dinheiro_flt = 00.00
@@ -502,10 +502,10 @@ while True:
         #confiabilidade menor do que 68% em cada match de imagem       
         elif (confidence < 68):
             cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
-            id = 'Desconhecido'
+            id = 'Unknown'
             confidence = "  {0}%".format(round(100 - confidence))
-            nome = "Aluno"
-            matricula = "Matricula"
+            nome = "Student"
+            matricula = "Number"
             dinheiro = "00"
             dinheiro_flt = 00.00
             numero_acessos = 0
@@ -520,7 +520,7 @@ while True:
         #error de frame e resete da interface de monitoramento.
         else:
             cv2.rectangle(img, (x,y), (x+w,y+h), (0,0,255), 2)
-            id = 'Erro de captura'
+            id = 'error:404'
             confidence = "  {0}%".format(round(100 - confidence))
             t = 0
             v = 0
