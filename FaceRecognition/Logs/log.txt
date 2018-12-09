@@ -1,0 +1,18 @@
+
+---------------------------------
+Face recognition begin at:
+dom dez  9 13:53:51 -02 2018
+---------------------------------
+
+-------------------------
+Date: 2018:12:9:13:54:10
+Out of money: João Vitor Rodrigues Baptista
+Number: 150013329
+Money remaining: -5.2
+Money before: 0.0
+------------------------
+
+---------------------------------
+echo Face recognition close at:
+dom dez  9 13:54:17 -02 2018
+---------------------------------
