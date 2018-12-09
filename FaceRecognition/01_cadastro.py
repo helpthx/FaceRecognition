@@ -14,7 +14,7 @@ import sys
 
 def cadastrar_usuario(): 
 	conn = sqlite3.connect('Banco_de_dados.db')
-	print ('Banco aberto com sucesso...');
+	print ('Database open successfully...');
 
 	print('\n-----------------------------')
 	nome = input('Digite o nome do aluno: ')
@@ -27,7 +27,7 @@ def cadastrar_usuario():
     	  VALUES (?, ?, ?, ?)", (nome,matricula,ru,acessos));
 
 	conn.commit()
-	print('Cadastro salvo com sucesso...');
+	print('Register saved successfully...');
 	print('\n')
 	conn.close()
 	sys.exit(1)

@@ -9,9 +9,9 @@ import os
 
 
 
-def criar_tabela():
+def make_table():
 	conn = sqlite3.connect('Banco_de_dados.db')
-	print('\nBanco aberto com sucesso...');
+	print('\nDatabase open successfully...');
 
 	conn.execute('''CREATE TABLE CADASTROS
          (ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,85 +21,80 @@ def criar_tabela():
          ACESSOS         INT NOT NULL);''')
 	conn.execute('INSERT INTO CADASTROS VALUES (0, "USUARIO 0", 00000000 , 00.00, 0)')
 	conn.commit()
-	print('Tabela criada com sucesso...');
+	print('Table criated successfully...');
 	print('\n')
 	conn.close()
 	os.system('sudo chmod 777 Banco_de_dados.db')
 	sys.exit(1)
 
-def recarregar_ru():
+def adding_credits():
 	conn = sqlite3.connect('Banco_de_dados.db')
-	print('\nBanco aberto com sucesso...');
+	print('\nDatabase open successfully...');
 	
-	matricula = input('Qual a matricula ?:  ')
-	dinheiro = input('Quanto de dinheiro colocar ?:')
+	matricula = input('Which registrations number:  ')
+	dinheiro = input('Who much money do you wanna put ?: ')
 	float(dinheiro)
 	conn.execute("UPDATE CADASTROS set RU = RU +" +dinheiro+ " WHERE  MATRICULA = "+ matricula);
 	conn.commit()
-	print('\nNumero total de colunas atualizadas: ', conn.total_changes)
+	print('\nTotal columns number updates: ', conn.total_changes)
 	if conn.total_changes > 0:
-		print('Alterado com sucesso...')
+		print('Change successfully...')
 	else:
-		print('Alguma operação deu errado...')
+		print('Failed something wrong...')
 
 	print('\n')
-	os.system('clear')
+	#os.system('clear')
 	conn.close()
 	sys.exit(1)
 
-def contador_acessos():
+def person_accounts():
 	conn = sqlite3.connect('Banco_de_dados.db')
-	print('\nBanco aberto com sucesso...');
+	print('\nDatabase open successfully...');
 	print('---------------------------')
-	MATRICULA1 = input('Digite a matricula: ')
+	MATRICULA1 = input('Type your registrations number: ')
 	
 	conn.execute('UPDATE CADASTROS set ACESSOS = ACESSOS+1 WHERE  MATRICULA='+MATRICULA1);
 	conn.commit()
 	print('Numero total de colunas atualizadas: ', conn.total_changes)
 	if conn.total_changes > 0:
-		print('Alterado com sucesso...')
+		print('Change successfully...')
 	else:
-		print('Alguma operação deu errado...')
+		print('Failed something wrong...')
 
 	print('\n')
-	os.system('clear')
+	#os.system('clear')
 	conn.close()
 	sys.exit(1)
 
 def loop_principal():
-	print('------------------------------------------------------------------------------------------------------------------')
-	print('1 -> Cria Tabela; 2 -> Adiona creditos no RU; 3 -> Contador de pessoas; 5 -> Sair: ')
-	print('------------------------------------------------------------------------------------------------------------------')
+	print('------------------------------------------------------------------------')
+	print('1 -> Table create; 2 -> Adding credits; 3 -> Access counter; 5 -> Exit: ')
+	print('------------------------------------------------------------------------')
 	a = input()
 	x = 1
 
 	while(x):
 		if int(a) == 1:
-			criar_tabela()
-			print('\nTabela Criada com sucesso...\n\n')
+			make_table()
+			print('\nTable created successfully...')
 			a = 0;
 
 		elif int(a) == 2:
-			recarregar_ru()
-			print('\nCredito adicionado com sucesso...\n\n')
+			adding_credits()
+			print('\nCredit added successfully...')
 			a = 0;
 			
-		elif int(a) == 90:
-			#recarregar_ru()
-			print('\nVc digitou 90, parabens vc é retardado\n\n')
-			a = 0;
-
 		elif int(a) == 3:
-			contador_acessos()
-			print('\nPessoa passou pela catraca...\n\n')
+			person_accounts()
+			print('\nSomeone passed...')
 			a = 0;
 
 		elif int(a) == 5:
-			print('\nSaindo...\n\n')
+			print('\nExiting...')
 			sys.exit(0)
 			
 		else:
-			print('\nVoltando para o começo\n\n')
+			print('\nBacking to begining')
 			loop_principal()
 
 

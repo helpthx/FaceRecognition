@@ -27,7 +27,7 @@ ru_list = []
 acessos_list = []
 data = []
 conn = sqlite3.connect('Banco_de_dados.db')
-print ('\nBanco aberto com sucesso...');
+print ('\nDatabase open successfully...');
 
 cursor = conn.execute("SELECT ID, NOME, MATRICULA, RU, ACESSOS from CADASTROS")
 for row in cursor:
@@ -38,7 +38,7 @@ for row in cursor:
     acessos_list.append(int(row[4]))
 
 
-print("Operação feita com sucesso...");
+print("Changed successfully...");
 conn.close()
 
 
@@ -53,7 +53,7 @@ face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 face_id = id_list[-1]
 
-print("\n [INFO] Iniciando a captura. Olhe para a camera e espere ...")
+print("\n[INFO]Beguining the shots. Look to camera and wait...")
 # Initialize individual sampling face count
 count = 0
 
@@ -81,7 +81,7 @@ while(True):
          break
 
 # Do a bit of cleanup
-print("\n [INFO] Pronto")
+print("\n [INFO]Done")
 cam.release()
 cv2.destroyAllWindows()
 
