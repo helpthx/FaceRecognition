@@ -12,16 +12,21 @@ from datetime import datetime
 import sqlite3
 import sys
 from fuctions import Real_time_fuctions
+
 c = Real_time_fuctions()
-
-
-'''
- Para para acessar o database e o dataset atraves de conversão de valores para listas
-'''
 
 #Working with the local database
 c.convert_list()
 c.zero_reset()
+
+# % Confidence
+const = 100
+confidence_in = const - 70 #Up to 70% will have acess
+confidence_out = const - confidence_in
+
+#Frames security system
+Frames = 13
+Frames2 = Frames + 2
 
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -45,8 +50,8 @@ minH = 0.1*cam.get(4)
 
 
 #Varibles for security increment
-t = 0
-v = 0
+Value_Increment1 = 0
+Value_Increment2 = 0
 
 #Main application loop
 while True:
@@ -90,7 +95,7 @@ while True:
         id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
         
         # Check if confidence is less them 100 ==> "0" is perfect match
-        if (confidence < 32): #Up to 68% of confidence
+        if (confidence < confidence_in): #Up to 68% of confidence
             cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
             
             #real time converting values from list
@@ -108,10 +113,10 @@ while True:
             iniciar = 1
             sem_credito = 0
             numero_acessos = numb_acessos
-            v = v + 1
+            Value_Increment2 = Value_Increment2 + 1
             
             #Condition with acess
-            if (t == 13 and credito_1 >= 0.0 and numero_acessos == 0):
+            if (Value_Increment1 == Frames and credito_1 >= 0.0 and numero_acessos == 0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
                 id = 'Access Allow'
                 iniciar = 1
@@ -120,7 +125,7 @@ while True:
                 
                                 
 
-                if(v == 15):
+                if(Value_Increment2 == Frames2):
                     cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2) #Green
                     id = 'Access Allow'
                                                            
@@ -143,17 +148,17 @@ while True:
 
                     time.sleep(5)
                     #os.system("sudo ./gpio") Only used in raspberry pi tests with reley
-                    t = 0
-                    v = 0
+                    Value_Increment1 = 0
+                    Value_Increment2 = 0
                     time.sleep(0.1)
             
             #User doesnt have enougth money to go in
-            elif(t == 13 and credito_1 < 0.0):
+            elif(Value_Increment1 == Frames and credito_1 < 0.0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,0,255), 2) #Vermelho
                 id = 'Access denied...'
                                 
                 #Temporalização para travar a tela de monitoramento
-                if(v == 15):
+                if(Value_Increment2 == Frames2):
                     
                     #Show in infos in console
                     print('Access denied: ', nome)
@@ -165,17 +170,17 @@ while True:
 
                     
                     #Freezing face time
-                    t = 0
-                    v = 0
+                    Value_Increment1 = 0
+                    Value_Increment2 = 0
                     time.sleep(5)
             
             #User trying to acess to many times
-            elif(t == 13 and numero_acessos != 0):
+            elif(Value_Increment1 == Frames and numero_acessos != 0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,165,255), 2) #Oranje
                 id = 'Access numbers expired...'
                                 
 
-                if(v == 15):
+                if(Value_Increment2 == Frames2):
                     
                     #Show infos in console
                     print('Access numbers expired... ', nome)
@@ -186,17 +191,17 @@ while True:
 
                     #Freezing face time
                     time.sleep(5)
-                    t = 0
-                    v = 0
+                    Value_Increment1 = 0
+                    Value_Increment2 = 0
 
             #Increment security system
             else:
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,255), 2) #yellow
                 id = 'Identifying'
-                t = t + 1
+                Value_Increment1 = Value_Increment1 + 1
                 
         #Under 68% showing Unknown in video
-        elif (confidence < 68):
+        elif (confidence < confidence_out):
             cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
             id = 'Unknown'
             confidence = "  {0}%".format(round(100 - confidence))
@@ -207,8 +212,8 @@ while True:
             cv2.rectangle(img, (x,y), (x+w,y+h), (0,0,255), 2)
             id = 'Error'
             confidence = "  {0}%".format(round(100 - confidence))
-            t = 0
-            v = 0
+            Value_Increment1 = 0
+            Value_Increment2 = 0
         
         cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
         cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  

@@ -96,3 +96,21 @@ Money before: 29.2
 echo Face recognition close at:
 sáb dez 15 13:56:54 -02 2018
 ---------------------------------
+
+---------------------------------
+Face recognition begin at:
+sáb dez 15 14:17:55 -02 2018
+---------------------------------
+
+-------------------------
+Date: 2018:12:15:14:18:28
+Welcome: João Vitor
+ID Number: 9999999
+Money remening: 18.8
+Money before: 24.0
+------------------------
+
+---------------------------------
+echo Face recognition close at:
+sáb dez 15 14:18:34 -02 2018
+---------------------------------
