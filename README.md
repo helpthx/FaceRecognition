@@ -3,27 +3,25 @@
 
 <p align="center">
  
-<a href="#backers" alt="">
+<a href="Update" alt="">
         <img src="https://img.shields.io/eclipse-marketplace/last-update/notepad4e.svg" /></a>
         
-<a href="#backers" alt="">
+<a href="License" alt="">
         <img src="https://img.shields.io/dub/l/vibe-d.svg" /></a>
         
-<a href="#backers" alt="">
+<a href="Version" alt="">
         <img src="https://img.shields.io/badge/Version-v1-green.svg" /></a>
         
-<a href="#backers" alt="">
+<a href="Python_Version" alt="">
        <img src="https://img.shields.io/pypi/pyversions/Django.svg" /></a>
  
-<a href="#backers" alt="">
-       <img src="https://img.shields.io/powershellgallery/p/:packageName.svg" /></a>
-  
-<a href="#backers" alt="">
+ 
+<a href="Size" alt="">
        <img src="https://img.shields.io/github/repo-size/badges/shields.svg" /></a>
 
 </p>
-<p align="justify">
-Simple project about face recognition. Based on college project [DS_2_2018](https://github.com/helpthx/DS_2_2018) . Aiming to use face recognition to control access at college's restaurant. The system was embedded in a Raspberry pi 3(SoC) and tested in different environments. There are a local database base on sqlite3, A server in Apache to editing the database while face recognition system are running and relay to send signal to open the door - control by Raspberry Pi GPIO.</p>
+
+Simple project about face recognition. Based on college project [DS_2_2018](https://github.com/helpthx/DS_2_2018) . Aiming to use face recognition to control access at college's restaurant. The system was embedded in a Raspberry pi 3(SoC) and tested in different environments. There are a local database base on sqlite3, A server in Apache to editing the database while face recognition system are running and relay to send signal to open the door - control by Raspberry Pi GPIO.
 
 
 ## Getting Started
@@ -49,8 +47,6 @@ Numpy
 ## Running the tests
 
 
-* Create an empty Folder named **"dataset"** in the same directory where the python scripts are.
-* Create an empty folder called **"trainer"** in the same directory.
 * Run on terminal **"python3 exe.py"**.
 * Type **"3"** and press enter **"3 -> Edit database"**.
 * Type **"1 -> Table create"** and a sqlite3 table will be create.
