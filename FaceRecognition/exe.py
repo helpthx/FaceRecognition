@@ -1,11 +1,14 @@
 import os 
 import time
 from datetime import datetime
+from fuctions import Enrollment_functions
+
+c = Enrollment_functions()
 
 print('\n------------------------------------')
 print('Para acessar remotamente o servidor!')
 print('Esse é o endereço de ip acessável')
-os.system('hostname -I');
+os.system('hostname -I')
 print('------------------------------------\n')
 
 x = 1
@@ -13,7 +16,7 @@ while(x):
 	print('\n---------------------------')
 	print('Welcome to Face Recognition !')
 	print('-----------------------------')
-	print('\n');
+	print('\n')
 	print('-------------------------------------------------------------------------------')
 	print('1 -> New register; 2 -> Face Recognition; 3 -> Edit database; 4 -> Exit:')
 	print('-------------------------------------------------------------------------------')
@@ -22,7 +25,7 @@ while(x):
 
 	if NUMB_INIT == 1:#Making new registers
 		print('\n')
-		os.system('python3 01_cadastro.py')
+		c.create_user()
 		os.system('python3 01_face_dataset.py')
 		os.system('python3 02_face_training.py')
 		print('\n\n')
@@ -43,7 +46,7 @@ while(x):
 			       	
 		print('-----------------------------------\n')
 		os.system('echo Face recognition close at:')
-		os.system('date');
+		os.system('date')
 		print('-----------------------------------\n\n')
 				
 		os.system('echo  >> Logs/log.txt')

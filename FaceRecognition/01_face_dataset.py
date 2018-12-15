@@ -81,7 +81,7 @@ while(True):
          break
 
 # Do a bit of cleanup
-print("\n [INFO]Done")
+print("\n[INFO]Done")
 cam.release()
 cv2.destroyAllWindows()
 

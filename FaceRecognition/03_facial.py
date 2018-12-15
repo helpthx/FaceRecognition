@@ -150,7 +150,7 @@ while True:
                     #os.system("sudo ./gpio") Only used in raspberry pi tests with reley
                     Value_Increment1 = 0
                     Value_Increment2 = 0
-                    time.sleep(0.1)
+
             
             #User doesnt have enougth money to go in
             elif(Value_Increment1 == Frames and credito_1 < 0.0):
@@ -170,9 +170,10 @@ while True:
 
                     
                     #Freezing face time
+                    time.sleep(5)
                     Value_Increment1 = 0
                     Value_Increment2 = 0
-                    time.sleep(5)
+
             
             #User trying to acess to many times
             elif(Value_Increment1 == Frames and numero_acessos != 0):

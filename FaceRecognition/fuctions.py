@@ -86,6 +86,85 @@ class Real_time_fuctions:
         arq.writelines(data)
         arq.close()
 
+class Enrollment_functions:
+
+    def person_accounts(self):
+        conn = sqlite3.connect('Banco_de_dados.db')
+        print('\nDatabase open successfully...')
+        print('---------------------------')
+        MATRICULA1 = input('Type your registrations number: ')
+
+        conn.execute('UPDATE CADASTROS set ACESSOS = ACESSOS+1 WHERE  MATRICULA=' + MATRICULA1);
+        conn.commit()
+        print('Numero total de colunas atualizadas: ', conn.total_changes)
+        if conn.total_changes > 0:
+            print('Change successfully...')
+        else:
+            print('Failed something wrong...')
+
+        print('\n')
+        # os.system('clear')
+        conn.close()
+        sys.exit(1)
+
+    def adding_credits(self):
+        conn = sqlite3.connect('Banco_de_dados.db')
+        print('\nDatabase open successfully...')
+
+        matricula = input('Which registrations number:  ')
+        dinheiro = input('Who much money do you wanna put ?: ')
+        float(dinheiro)
+        conn.execute("UPDATE CADASTROS set RU = RU +" + dinheiro + " WHERE  MATRICULA = " + matricula);
+        conn.commit()
+        print('\nTotal columns number updates: ', conn.total_changes)
+        if conn.total_changes > 0:
+            print('Change successfully...')
+        else:
+            print('Failed something wrong...')
+
+        print('\n')
+        # os.system('clear')
+        conn.close()
+        sys.exit(1)
+
+    def make_table(self):
+        conn = sqlite3.connect('Banco_de_dados.db')
+        print('\nDatabase open successfully...')
+
+        conn.execute('''CREATE TABLE CADASTROS
+             (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+             NOME           TEXT    NOT NULL,
+             MATRICULA            INT     NOT NULL,
+             RU        	REAL NOT NULL,
+             ACESSOS         INT NOT NULL);''')
+        conn.execute('INSERT INTO CADASTROS VALUES (0, "USUARIO 0", 00000000 , 00.00, 0)')
+        conn.commit()
+        print('Table criated successfully...')
+        print('\n')
+        conn.close()
+        os.system('sudo chmod 777 Banco_de_dados.db')
+        sys.exit(1)
+
+    def create_user(self):
+        conn = sqlite3.connect('Banco_de_dados.db')
+        print ('Database open successfully...')
+
+        print('\n-----------------------------')
+        nome = input('Digite o nome do aluno: ')
+        matricula = input('Digite a matricula: ')
+        print('-----------------------------\n')
+        ru = 00.00
+        acessos = 0
+
+        conn.execute("INSERT INTO CADASTROS (NOME,MATRICULA,RU,ACESSOS) \
+              VALUES (?, ?, ?, ?)", (nome,matricula,ru,acessos))
+
+        conn.commit()
+        print('Register saved successfully...')
+        print('\n')
+        conn.close()
+
+
 
 
 
