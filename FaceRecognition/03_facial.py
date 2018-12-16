@@ -24,6 +24,9 @@ const = 100
 confidence_in = const - 70 #Up to 70% will have acess
 confidence_out = const - confidence_in
 
+# Amout of money to access the rest
+amout_money = 5.20
+
 #Frames security system
 Frames = 13
 Frames2 = Frames + 2
@@ -32,7 +35,7 @@ Frames2 = Frames + 2
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainer.yml')
 cascadePath = "haarcascade_frontalface_default.xml"
-faceCascade = cv2.CascadeClassifier(cascadePath);
+faceCascade = cv2.CascadeClassifier(cascadePath)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -73,19 +76,18 @@ while True:
         #Updating database in real time
         id_list = []
         name_list = []
-        matricula_list = []
-        ru_list = []
-        acessos_list = []
-        data = []
+        id_number_list = []
+        money_list = []
+        acess_list = []
         conn = sqlite3.connect('Banco_de_dados.db')
 
-        cursor = conn.execute("SELECT ID, NOME, MATRICULA, RU, ACESSOS from CADASTROS")
+        cursor = conn.execute("SELECT ID, NAME, ID_NUMBER, MONEY, ACCESS from REGISTER")
         for row in cursor:
             id_list.append(int(row[0]))
             name_list.append(row[1])
-            matricula_list.append(int(row[2]))
-            ru_list.append(float(row[3]))
-            acessos_list.append(int(row[4]))
+            id_number_list.append(int(row[2]))
+            money_list.append(float(row[3]))
+            acess_list.append(int(row[4]))
 
         conn.close()
 
@@ -99,30 +101,25 @@ while True:
             cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
             
             #real time converting values from list
-            nome = name_list[id]
-            numb_acessos = acessos_list[id]
-            credito = ru_list[id]
-            matricula = str(matricula_list[id])
-            credito_1 = round(credito - 5.20, 2)
-            dinheiro = str(credito_1)
-            id = matricula_list[id]
+            name = name_list[id]
+            numb_acess = acess_list[id]
+            money = money_list[id]
+            id_number = str(id_number_list[id])
+            money_after = round(money - amout_money, 2)
+            money_str = str(money_after)
+            id = id_number_list[id]
             confidence = "  {0}%".format(round(100 - confidence))
             
             cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
             id = 'Access Allow'
-            iniciar = 1
-            sem_credito = 0
-            numero_acessos = numb_acessos
+            numero_acessos = numb_acess
             Value_Increment2 = Value_Increment2 + 1
             
             #Condition with acess
-            if (Value_Increment1 == Frames and credito_1 >= 0.0 and numero_acessos == 0):
+            if (Value_Increment1 == Frames and money_after >= 0.0 and numero_acessos == 0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
                 id = 'Access Allow'
-                iniciar = 1
-                sem_credito = 0
-                numero_acessos = 0
-                
+
                                 
 
                 if(Value_Increment2 == Frames2):
@@ -130,20 +127,20 @@ while True:
                     id = 'Access Allow'
                                                            
                     #Show in console infos
-                    print('Welcome: ', nome)
-                    print('ID Number: ', matricula)
-                    print('Money remaining: ', credito_1)
+                    print('Welcome: ', name)
+                    print('ID Number: ', id_number)
+                    print('Money remaining: ', money_after)
                     print('\n')
                     
                     #Atualização do banco de dados
                     conn = sqlite3.connect('Banco_de_dados.db')
-                    conn.execute("UPDATE CADASTROS set RU = " +str(round(credito_1, 2))+ " WHERE  MATRICULA = "+ str(matricula));
-                    conn.execute('UPDATE CADASTROS set ACESSOS = ACESSOS+1 WHERE  MATRICULA='+str(matricula));
+                    conn.execute("UPDATE REGISTER set MONEY = " +str(round(money_after, 2))+ " WHERE  ID_NUMBER = "+ str(id_number))
+                    conn.execute('UPDATE REGISTER set ACCESS = ACCESS+1 WHERE  ID_NUMBER='+str(id_number))
                     conn.commit()
                     print('\n')
                     conn.close()
                     
-                    c.creating_logs(nome, matricula, credito_1, credito, 1)
+                    c.creating_logs(name, id_number, money_after, money, 1)
                                       
 
                     time.sleep(5)
@@ -153,7 +150,7 @@ while True:
 
             
             #User doesnt have enougth money to go in
-            elif(Value_Increment1 == Frames and credito_1 < 0.0):
+            elif(Value_Increment1 == Frames and money_after < 0.0):
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,0,255), 2) #Vermelho
                 id = 'Access denied...'
                                 
@@ -161,9 +158,9 @@ while True:
                 if(Value_Increment2 == Frames2):
                     
                     #Show in infos in console
-                    print('Access denied: ', nome)
-                    print('ID Number: ', matricula)
-                    print('Money remening: ', credito)
+                    print('Access denied: ', name)
+                    print('ID Number: ', id_number)
+                    print('Money remening: ', money)
                     print('\n')
                     
                     #Criando o arquivo de logs
@@ -184,11 +181,11 @@ while True:
                 if(Value_Increment2 == Frames2):
                     
                     #Show infos in console
-                    print('Access numbers expired... ', nome)
-                    print('ID Number: ', matricula)
+                    print('Access numbers expired... ', name)
+                    print('ID Number: ', id_number)
                     print('\n')
 
-                    c.creating_logs(nome, matricula, credito_1, credito, 3)
+                    c.creating_logs(name, id_number, money_after, money, 3)
 
                     #Freezing face time
                     time.sleep(5)

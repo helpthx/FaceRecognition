@@ -11,20 +11,19 @@ class Real_time_fuctions:
     def convert_list(self):
         id_list = []
         name_list = []
-        matricula_list = []
-        ru_list = []
-        acessos_list = []
-        data = []
+        id_number_list = []
+        money_list = []
+        acess_list = []
         conn = sqlite3.connect('Banco_de_dados.db')
         print('Database open successfully...')
 
-        cursor = conn.execute("SELECT ID, NOME, MATRICULA, RU, ACESSOS from CADASTROS")
+        cursor = conn.execute("SELECT ID, NAME, ID_NUMBER, MONEY, ACCESS from REGISTER")
         for row in cursor:
             id_list.append(int(row[0]))
             name_list.append(row[1])
-            matricula_list.append(int(row[2]))
-            ru_list.append(float(row[3]))
-            acessos_list.append(int(row[4]))
+            id_number_list.append(int(row[2]))
+            money_list.append(float(row[3]))
+            acess_list.append(int(row[4]))
 
         print("Change successfully...")
         conn.close()
@@ -34,7 +33,7 @@ class Real_time_fuctions:
         print('-----------------------------')
         print('Database open successfully...')
 
-        conn.execute('UPDATE CADASTROS set ACESSOS = 0')
+        conn.execute('UPDATE REGISTER set ACCESS = 0')
         conn.commit()
         print('Total columns number updates: ', conn.total_changes)
         if conn.total_changes > 0:
@@ -94,7 +93,7 @@ class Enrollment_functions:
         print('---------------------------')
         MATRICULA1 = input('Type your registrations number: ')
 
-        conn.execute('UPDATE CADASTROS set ACESSOS = ACESSOS+1 WHERE  MATRICULA=' + MATRICULA1);
+        conn.execute('UPDATE REGISTER set ACCESS = ACCESS+1 WHERE  ID_NUMBER=' + MATRICULA1)
         conn.commit()
         print('Numero total de colunas atualizadas: ', conn.total_changes)
         if conn.total_changes > 0:
@@ -105,7 +104,7 @@ class Enrollment_functions:
         print('\n')
         # os.system('clear')
         conn.close()
-        sys.exit(1)
+        #sys.exit(1)
 
     def adding_credits(self):
         conn = sqlite3.connect('Banco_de_dados.db')
@@ -114,7 +113,7 @@ class Enrollment_functions:
         matricula = input('Which registrations number:  ')
         dinheiro = input('Who much money do you wanna put ?: ')
         float(dinheiro)
-        conn.execute("UPDATE CADASTROS set RU = RU +" + dinheiro + " WHERE  MATRICULA = " + matricula);
+        conn.execute("UPDATE REGISTER set MONEY = MONEY +" + dinheiro + " WHERE  ID_NUMBER = " + matricula)
         conn.commit()
         print('\nTotal columns number updates: ', conn.total_changes)
         if conn.total_changes > 0:
@@ -125,39 +124,39 @@ class Enrollment_functions:
         print('\n')
         # os.system('clear')
         conn.close()
-        sys.exit(1)
+        #sys.exit(1)
 
     def make_table(self):
         conn = sqlite3.connect('Banco_de_dados.db')
         print('\nDatabase open successfully...')
 
-        conn.execute('''CREATE TABLE CADASTROS
+        conn.execute('''CREATE TABLE REGISTER
              (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-             NOME           TEXT    NOT NULL,
-             MATRICULA            INT     NOT NULL,
-             RU        	REAL NOT NULL,
-             ACESSOS         INT NOT NULL);''')
-        conn.execute('INSERT INTO CADASTROS VALUES (0, "USUARIO 0", 00000000 , 00.00, 0)')
+             NAME           TEXT    NOT NULL,
+             ID_NUMBER            INT     NOT NULL,
+             MONEY        	REAL NOT NULL,
+             ACCESS         INT NOT NULL);''')
+        conn.execute('INSERT INTO REGISTER VALUES (0, "USER 0", 00000000 , 00.00, 0)')
         conn.commit()
         print('Table criated successfully...')
         print('\n')
         conn.close()
         os.system('sudo chmod 777 Banco_de_dados.db')
-        sys.exit(1)
+        #sys.exit(1)
 
     def create_user(self):
         conn = sqlite3.connect('Banco_de_dados.db')
         print ('Database open successfully...')
 
         print('\n-----------------------------')
-        nome = input('Digite o nome do aluno: ')
-        matricula = input('Digite a matricula: ')
+        name = input('Type the name: ')
+        id_number = input('Type the ID number: ')
         print('-----------------------------\n')
-        ru = 00.00
-        acessos = 0
+        money = 00.00
+        access = 0
 
-        conn.execute("INSERT INTO CADASTROS (NOME,MATRICULA,RU,ACESSOS) \
-              VALUES (?, ?, ?, ?)", (nome,matricula,ru,acessos))
+        conn.execute("INSERT INTO REGISTER (NAME,ID_NUMBER,MONEY,ACCESS) \
+              VALUES (?, ?, ?, ?)", (name,id_number,money,access))
 
         conn.commit()
         print('Register saved successfully...')

@@ -22,23 +22,22 @@ import sqlite3
 
 id_list = []
 name_list = []
-matricula_list = []
-ru_list = []
-acessos_list = []
-data = []
+id_number_list = []
+money_list = []
+acess_list = []
 conn = sqlite3.connect('Banco_de_dados.db')
-print ('\nDatabase open successfully...');
+print ('\nDatabase open successfully...')
 
-cursor = conn.execute("SELECT ID, NOME, MATRICULA, RU, ACESSOS from CADASTROS")
+cursor = conn.execute("SELECT ID, NAME, ID_NUMBER, MONEY, ACCESS from REGISTER")
 for row in cursor:
     id_list.append(int(row[0]))
     name_list.append(row[1])
-    matricula_list.append(int(row[2]))
-    ru_list.append(float(row[3]))
-    acessos_list.append(int(row[4]))
+    id_number_list.append(int(row[2]))
+    money_list.append(float(row[3]))
+    acess_list.append(int(row[4]))
 
 
-print("Changed successfully...");
+print("Changed successfully...")
 conn.close()
 
 
